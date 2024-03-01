@@ -1,32 +1,22 @@
 // Get elements
+// UI elements
 let homeUI = document.getElementById("homeUI");
 let sessionUI = document.getElementById("sessionUI");
 let scoreboardUI = document.getElementById("scoreboardUI")
+// Session UI
 let diceAmountInput = document.getElementById("diceAmountInput");
 let diceAmountButton = document.getElementById("diceAmountButton");
 let matchDurationInput = document.getElementById("matchDurationInput");
 let startButton = document.getElementById("startButton");
-let diceDisplayContainer = document.getElementById("diceDisplayContainer");
-let diceDropContainer = document.getElementById("diceDropContainer");
-let finishButton = document.getElementById("finishButton");
-let nextButton = document.getElementById("nextButton");
-let moveLeftButton = document.getElementById("moveLeftButton");
-let moveRightButton = document.getElementById("moveRightButton");
-let moveUpButton = document.getElementById("moveUpButton");
-let moveDownButton = document.getElementById("moveDownButton");
-let addPlayerButton = document.getElementById("addPlayerButton");
-let removePlayerButton = document.getElementById("removePlayerButton");
-let playerListContainer = document.getElementById("playerListContainer");
-let playerMatchContainer = document.getElementById("playerMatchContainer");
 let classicButton = document.getElementById("classicButton");
 let customButton = document.getElementById("customButton");
+// Match UI
 let startTab = document.getElementById("startTab");
 let matchTab = document.getElementById("matchTab");
 let correctTab = document.getElementById("correctTab");
+let finishButton = document.getElementById("finishButton");
+let nextButton = document.getElementById("nextButton");
 let roundAmountInput = document.getElementById("roundAmountInput");
-let exitButton = document.getElementById("exitButton");
-let menuButton = document.getElementById("menuButton");
-let deleteButton = document.getElementById("deleteElementButton");
 
 // Define element classes and ids
 let diceDisplayClass = "diceDisplay border border-primary rounded text-center";
@@ -42,15 +32,15 @@ let undraggableElements = "undraggableUiElement";
 let blurableElementsClass = "blurableElement";
 
 // Set eventlisteners
-menuButton.onclick = returnToMenu;
+document.getElementById("menuButton").onclick = returnToMenu;
 nextButton.onclick = prepareNextRound;
-exitButton.onclick = exitGame;
+document.getElementById("exitButton").onclick = exitGame;
 finishButton.onclick = timeIsUp;
-deleteButton.onclick = deleteElements;
+document.getElementById("deleteElementButton").onclick = deleteElements;
 startButton.onclick = startButtonClicked;
 diceAmountButton.onclick = diceAmountButtonClicked;
-addPlayerButton.onclick = addPlayer;
-removePlayerButton.onclick = removePlayer;
+document.getElementById("addPlayerButton").onclick = addPlayer;
+document.getElementById("removePlayerButton").onclick = removePlayer;
 
 classicButton.addEventListener("click", function() {
   setupRules(0);
@@ -58,16 +48,16 @@ classicButton.addEventListener("click", function() {
 customButton.addEventListener("click", function() {
   setupRules(1);
 });
-moveUpButton.addEventListener("click", function() {
+document.getElementById("moveUpButton").addEventListener("click", function() {
   moveButton(DEFAULT_MOVE_STEPS * (-1), 1);
 });
-moveDownButton.addEventListener("click", function() {
+document.getElementById("moveDownButton").addEventListener("click", function() {
   moveButton(DEFAULT_MOVE_STEPS, 1);
 });
-moveLeftButton.addEventListener("click", function() {
+document.getElementById("moveLeftButton").addEventListener("click", function() {
   moveButton(DEFAULT_MOVE_STEPS * (-1), 0);
 });
-moveRightButton.addEventListener("click", function() {
+document.getElementById("moveRightButton").addEventListener("click", function() {
   moveButton(DEFAULT_MOVE_STEPS, 0);
 });
 
@@ -141,7 +131,7 @@ function createDiceDisplays() {
     displayString += createDisplayElement(i);
   }
   // Append string to container
-  diceDisplayContainer.innerHTML = displayString;
+  document.getElementById("diceDisplayContainer").innerHTML = displayString;
 }
 
 // Return html code for single dice display
@@ -173,19 +163,12 @@ function initializeMatch() {
   disableMatchUI(false);
 }
 
+// Display current turn in session
 function showCurrentTurn() {
   document.getElementById("currentTurnContainer").innerHTML = "<div class=\"container w-auto rounded bg-" + colors[currentPlayers[currentTurn].color] + " text-white stackChild\">" + 
   "<div class=\"row justify-content-center\"><div class=\"col-auto\">Current turn</div></div>" +
   "<div class=\"row justify-content-center\"><div class=\"col-auto h4\">" + currentPlayers[currentTurn].name + "</div></div>" +
   "</div>"
-}
-
-function resetDropFields() {
-  for (let y = 0; y < BOARD_SIZE; y++) {
-    for (let x = 0; x < BOARD_SIZE; x++) {
-      resetDropField(y, x);
-    }
-  }
 }
 
 // Deletes selected elements
@@ -200,6 +183,16 @@ function deleteElements() {
   }
 }
 
+// Reset all drop field in container
+function resetDropFields() {
+  for (let y = 0; y < BOARD_SIZE; y++) {
+    for (let x = 0; x < BOARD_SIZE; x++) {
+      resetDropField(y, x);
+    }
+  }
+}
+
+// Reset a single drop field
 function resetDropField(y, x) {
   let dropElem = document.getElementById(diceDropFieldId + "Y" + y + "X" + x);
   dropElem.innerHTML = DROP_FIELD_DEFAULT_VALUE;
@@ -208,12 +201,14 @@ function resetDropField(y, x) {
   dropElem.classList.remove(...alreadyUsedDisplayClass);
 }
 
+// Reset all display fields
 function resetDisplayFields() {
   for (let i = 0; i < DICE_AMOUNT; i++) {
     resetDisplayField(i);
   }
 }
 
+// Reset a single display field
 function resetDisplayField(i) {
   let disElem = document.getElementById(diceDisplayId + i);
   disElem.classList.remove(...alreadyUsedDisplayClass);
@@ -248,11 +243,6 @@ function displayCurrentDice(index, value) {
   "</div>"
 }
 
-// Return value of specific letter
-function getValueOfLetter(letter) {
-
-}
-
 // Create fields to drop dices in
 function createDropFields() {
   // String contains html code for all rows
@@ -263,7 +253,7 @@ function createDropFields() {
     rowsString += createDropFieldRow(y);
   }
   // Append rows to container
-  diceDropContainer.innerHTML = rowsString;
+  document.getElementById("diceDropContainer").innerHTML = rowsString;
 }
 
 // Create a single row of drop fields
@@ -291,6 +281,7 @@ function prepareTimer() {
   startTimer(barElem, MATCH_DURATION_SEC);
 }
 
+// Prepare progress bar by setting values
 function initializeProgressBar(barElem, maxSeconds) {
   barElem.ariaValueMax = maxSeconds;
   barElem.ariaValueMin = "0";
@@ -299,19 +290,23 @@ function initializeProgressBar(barElem, maxSeconds) {
   barElem.style.width = "100%";
 }
 
+// Starts timer for a single match
 function startTimer(barElem, maxSeconds) {
   let start = Date.now();
   interval = setInterval(function() {
       let delta = Date.now() - start; // milliseconds elapsed since start
+      // Calculate remaining seconds
       let secondsLeft = MATCH_DURATION_SEC - (Math.floor(delta / 1000));
       updateProgressBar(barElem, secondsLeft, maxSeconds);
       handleColorProgressBar(barElem, secondsLeft);
+      // Check if time is up
       if (secondsLeft == 0) {
         timeIsUp(interval, barElem, maxSeconds);
       }
   }, 1000);
 }
 
+// Update colors of progress bar
 function handleColorProgressBar(elem, secondsLeft) {
   if (secondsLeft > 10) {
     // default color
@@ -331,16 +326,19 @@ function handleColorProgressBar(elem, secondsLeft) {
   }
 }
 
+// Update value of progress bar
 function updateProgressBar(barElem, secondsLeft, maxSeconds) {
   barElem.ariaValueNow = "" + secondsLeft;
   barElem.textContent = secondsLeft + "s";
   barElem.style.width = getPercentage(secondsLeft, maxSeconds) + "%";
 }
 
+// Calculate percentage of a specific value
 function getPercentage(value, maxValue) {
   return ((value * 100) / maxValue)
 }
 
+// Interaction buttons
 function moveButton(steps, direction) {
   // If correction no movement is allowed
   if (removingFalseLetters == true) { return; }
@@ -402,6 +400,7 @@ function deselectDropFields(elems) {
   }
 }
 
+// Move all submitted elements sideways
 function moveDropsHorizNow(elems, steps) {
   // Iterate drop fields to the side
   for (let i = 0; i < elems.length; i++ ) {
@@ -410,6 +409,7 @@ function moveDropsHorizNow(elems, steps) {
   }
 }
 
+// Move all submitted elements vertically
 function moveDropsVertNow(elems, steps) {
   // Iterate drop fields vertically
   for (let i = 0; i < elems.length; i++ ) {
@@ -435,6 +435,7 @@ function getSelectedDrops() {
   return elems;
 }
 
+// Check if borders would be exceeded
 function checkDropsMoveHoriz(elems, dimX, steps) {
   let posX = 0;
   // Iterate through all selected elements
@@ -453,6 +454,7 @@ function checkDropsMoveHoriz(elems, dimX, steps) {
   return true;
 }
 
+// Check if borders would be exceeded
 function checkDropsMoveVert(elems, dimY, steps) {
   let posY = 0;
   // Iterate through all selected elements
@@ -489,10 +491,12 @@ function allowDrop(ev) {
   ev.preventDefault();
 }
 
+// Proccess drag event
 function drag(ev) {
   ev.dataTransfer.setData("elementId", ev.target.id);
 }
 
+// Submit data from dragged element
 function drop(ev) {
   // Avoid opening link
   ev.preventDefault();
@@ -504,6 +508,7 @@ function drop(ev) {
   handleDrop(senderElem, targetElem)
 }
 
+// Check where drop is from
 function handleDrop(senderElem, targetElem) {
   // If correcting false letters is set dont allow access
   if (removingFalseLetters == true) { return; }
@@ -517,6 +522,7 @@ function handleDrop(senderElem, targetElem) {
   changeAppliedinDropField();
 }
 
+// Set behaviour for drop from display elements
 function dropFromDisplayField(senderElem, targetElem) {
   // Transfer letter to new field
   targetElem.innerHTML = senderElem.innerHTML;
@@ -531,6 +537,7 @@ function dropFromDisplayField(senderElem, targetElem) {
   targetElem.draggable = true;
 }
 
+// Set behaviour for drop from drop field elements
 function dropFromDropField(senderElem, targetElem) {
   // Distinguish if new field is already set
   if (targetElem.textContent != DROP_FIELD_DEFAULT_VALUE) {
@@ -540,6 +547,7 @@ function dropFromDropField(senderElem, targetElem) {
   }
 }
 
+// Set value in drop field
 function setNewDropField(senderElem, targetElem) {
   // Get all selected elements
   let selectedElems = getSelectedDrops();
@@ -551,6 +559,7 @@ function setNewDropField(senderElem, targetElem) {
   }
 }
 
+// Set all selected drop fields
 function setMultipleNewDropField(senderElem, targetElem, selectedElems) {
   // Get all attributes to faciliate process
   let senderX = parseInt(senderElem.getAttribute("posX"));
@@ -579,6 +588,7 @@ function setMultipleNewDropField(senderElem, targetElem, selectedElems) {
   }
 }
 
+// Set a single drop field value
 function setSingleNewDropField(senderElem, targetElem) {
   // Transfer letter to new field
   targetElem.innerHTML = senderElem.innerHTML;
@@ -602,6 +612,7 @@ function setSingleNewDropField(senderElem, targetElem) {
   targetElem.draggable = true;
 }
 
+// The target element is already set
 function switchDropField(senderElem, targetElem) {
   // Cancel if multiple elements are selected 
   if (getSelectedDrops().length > 1) { return; }
@@ -665,6 +676,7 @@ function selectDropField(elem) {
   elem.setAttribute("dropFieldSelected", "true");
 }
 
+// Check if drop field is selected
 function isDropFieldSelected(elem) {
   return (elem.getAttribute("dropFieldSelected") == "true");
 }
@@ -706,7 +718,7 @@ function addPlayer() {
   // Create HTML Code for a player
   let elem = document.createElement("div");
   elem.innerHTML = createPlayerRowHtml(currentPlayers.length, name, id, color)
-  playerListContainer.appendChild(elem);
+  document.getElementById("playerListContainer").appendChild(elem);
   // Update player count on the bottom of the list
   updatePlayerCount();
 }
@@ -776,6 +788,7 @@ function setRandomColorOrder() {
   }
 }
 
+// Return HTML code for a player in menu UI
 function createPlayerRowHtml(index, name, id, color) {
   return "<div class=\"row p-1 m-1 border border-" + colors[color] + " rounded text-white bg-" + colors[color] + "\" id=\"" + playerRowId + "" + id + "\">" +
   "<div class=\"col-auto\">Player " + index + ": </div>" +
@@ -793,10 +806,12 @@ function createPlayerRowHtml(index, name, id, color) {
   "</div>";
 }
 
+// Update the edited name of a player
 function updateNamePlayer(id) {
   currentPlayers[id].name = document.getElementById("playerNameInput" + id).value;
 }
 
+// Create player object
 function createPlayerObject(id, name, currentScore, totalScore, color) {
   let player = {
     id: id,
@@ -835,6 +850,7 @@ function updatePlayerCount() {
   elem.textContent = amount == 1 ? "1 Player" : amount + " Players"
 }
 
+// Adds all players to UI in match
 function addPlayersToUI() {
   let profilesString = "";
   for (let i = currentTurn; i < currentPlayers.length; i++) {
@@ -843,9 +859,10 @@ function addPlayersToUI() {
   for (let i = 0; i < currentTurn; i++) {
     profilesString += addProfileElement(i);
   }
-  playerMatchContainer.innerHTML = profilesString;
+  document.getElementById("playerMatchContainer").innerHTML = profilesString;
 }
 
+// Return HTML code for a player during match
 function addProfileElement(index) {
   // Marking current turn on player
   if (index == currentTurn) {
@@ -874,6 +891,7 @@ function addProfileElement(index) {
   }
 }
 
+// Sets values for next round
 function prepareNextRound() {
   // Disable interaction
   disableMatchUI(true);
@@ -904,10 +922,8 @@ function prepareNextRound() {
   showNavTab(0);
 }
 
+// Triggered if a session is finished
 function roundsFinished() {
-  for (let i = 0; i < currentPlayers.length; i++) {
-    console.log(currentPlayers[i].totalScore)
-  }
   resetDisplayFields();
   resetDropFields();
   // Change applied in drop field
@@ -917,6 +933,7 @@ function roundsFinished() {
   buildScoreboard();
 }
 
+// Build the scoreboard
 function buildScoreboard() {
   // Sort player array
   let scores = [...currentPlayers];
@@ -930,11 +947,13 @@ function buildScoreboard() {
   document.getElementById("scoreboardContainer").innerHTML = html;
 }
 
+// Finish game
 function exitGame() {
   timeIsUp();
   returnToMenu();
 }
 
+// Return to home menu
 function returnToMenu() {
   switchUI(0);
 }
@@ -959,6 +978,7 @@ function switchUI(uiIndex) {
   }
 }
 
+// Disable elements to prevent interaction
 function disableMatchUI(disable) {
   // Dis-/enable button elements
   let uiElems = document.getElementsByClassName(disableableElements);
@@ -1004,6 +1024,7 @@ function setupRules(mode) {
 
 }
 
+// Counts values of all set elements together
 function countValues() {
   // Store total value
   let totalValue = 0;
@@ -1052,6 +1073,7 @@ function isCrossingDropElement(y, x) {
   return (horiz && vert)
 }
 
+// Show specific step in match
 function showNavTab(showIndex) {
   if (showIndex == 0) {
     // Activate nav tab
@@ -1088,6 +1110,7 @@ function showNavTab(showIndex) {
   }
 }
 
+// Return HTML code for winner
 function getScoreboardHTMLFirst(index) {
   return "<div class=\"row mt-2 p-2 border border-" + colors[currentPlayers[index].color] + " bg-" + colors[currentPlayers[index].color] + " rounded\">" +
   "<div class=\"col-auto p-0 pt-1 bg-white border border-" + colors[currentPlayers[index].color] + " rounded-circle scoreboardCircleTop text-center\">" +
@@ -1098,6 +1121,7 @@ function getScoreboardHTMLFirst(index) {
   "</div>";
 } 
 
+// Return HTML code for second and third place
 function getScoreboardHTMLSecondThird(index, rank) {
   return "<div class=\"row mt-2 p-2 border border-" + colors[currentPlayers[index].color] + " rounded\">" +
   "<div class=\"col-auto p-0 pt-1 bg-" + colors[currentPlayers[index].color] + " border border-" + colors[currentPlayers[index].color] + " rounded-circle scoreboardCircleTop text-center\">" +
@@ -1108,6 +1132,7 @@ function getScoreboardHTMLSecondThird(index, rank) {
   "</div>";
 }
 
+// Return HTML code for all the rest
 function getScoreboardHTMLRest(index, rank) {
   return "<div class=\"row p-2\">" +
   "<div class=\"col-auto p-0 bg-" + colors[currentPlayers[index].color] + " border border-" + colors[currentPlayers[index].color] + " rounded-circle scoreboardCircleLow text-center\">" +
@@ -1129,6 +1154,7 @@ function updateCurrentScore() {
   document.getElementById("currentScore").textContent = countValues();
 }
 
+// Sets names for all players according to belonging input field
 function setNames() {
   for (let i = 0; i < currentPlayers.length; i++) {
     let name = document.getElementById("playerNameInput" + i).value;
