@@ -1,0 +1,86 @@
+* {
+  margin: 0;
+  padding: 0;
+  font-family:'Segoe UI', Tahoma, Geneva, Verdana;
+  font-size: 100%;
+}
+html {
+  
+}
+
+.invisible {
+  display: none;
+}
+
+#diceDisplayContainer, #diceDropContainer {
+  display: inline-flex;
+  gap: 1em;
+  text-align: center;
+  
+}
+.diceDisplay {
+  width: 50px;
+  height: 50px;
+}
+
+.dropDice {
+  width: 50px;
+  height: 50px;
+}
+
+.dropFieldSelected {
+  filter: brightness(1.4);
+}
+
+.unselectable {
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  -khtml-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+
+.stackChild {
+  position: absolute;
+  top: 100px;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.stackParent {
+  position: relative;
+}
+
+.blur {
+  filter: blur(0.51rem);
+}
+
+#startButton {
+  z-index: 1;
+}
+
+.playerColorMark {
+  width: 25px;
+  height: 25px;
+}
+
+.letterFontSize {
+  font-size: 20px;
+}
+.valueFontSize {
+  font-size: 11px;
+}
+
+.scoreboardCircleTop {
+  width: 35px !important;
+  height: 35px !important;
+}
+.scoreboardCircleLow {
+  width: 25px !important;
+  height: 25px !important;
+}
+
+.center-scoreboard-number {
+  margin-top: -3px !important;
+}
